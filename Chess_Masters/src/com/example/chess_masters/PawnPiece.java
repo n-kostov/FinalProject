@@ -22,11 +22,18 @@ public class PawnPiece extends Piece {
 	@Override
 	public ArrayList<Position> possibleMoves(Position currentPosition) {
 		ArrayList<Position> moves = new ArrayList<Position>();
-		if(!this.hasMoved) {
-			moves.add(new Position(currentPosition.getX() + 2, currentPosition.getY()));
+		int offset = 1;
+		if (getPieceColor() == PieceColor.WHITE_COLOR) {
+			offset = -1;
 		}
-		
-		moves.add(new Position(currentPosition.getX() + 1, currentPosition.getY()));
+
+		if (!this.hasMoved) {
+			moves.add(new Position(currentPosition.getX() + 2 * offset,
+					currentPosition.getY()));
+		}
+
+		moves.add(new Position(currentPosition.getX() + offset, currentPosition
+				.getY()));
 		return moves;
 	}
 

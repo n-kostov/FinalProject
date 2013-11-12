@@ -5,10 +5,20 @@ import java.util.ArrayList;
 public abstract class Piece {
 	private PieceColor pieceColor;
 	private int resource;
+	private boolean selected;
 
 	public Piece(PieceColor color, int resource) {
 		this.pieceColor = color;
 		this.resource = resource;
+		this.selected = false;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	public int getResource() {
