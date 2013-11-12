@@ -1,6 +1,7 @@
 package com.example.chess_masters;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class PawnPiece extends Piece {
 
@@ -20,20 +21,26 @@ public class PawnPiece extends Piece {
 	}
 
 	@Override
-	public ArrayList<Position> possibleMoves(Position currentPosition) {
-		ArrayList<Position> moves = new ArrayList<Position>();
+	public Hashtable<Direction, ArrayList<Position>> possibleMoves(
+			Position currentPosition) {
+		ArrayList<Position> movesInDirection = new ArrayList<Position>();
+		Direction dir = Direction.SOUTH;
 		int offset = 1;
 		if (getPieceColor() == PieceColor.WHITE_COLOR) {
 			offset = -1;
+			dir = Direction.NORTH;
 		}
 
 		if (!this.hasMoved) {
-			moves.add(new Position(currentPosition.getX() + 2 * offset,
-					currentPosition.getY()));
+			movesInDirection.add(new Position(currentPosition.getX() + 2
+					* offset, currentPosition.getY()));
 		}
 
-		moves.add(new Position(currentPosition.getX() + offset, currentPosition
-				.getY()));
+		movesInDirection.add(new Position(currentPosition.getX() + offset,
+				currentPosition.getY()));
+
+		Hashtable<Direction, ArrayList<Position>> moves = new Hashtable<Direction, ArrayList<Position>>();
+		moves.put(dir, movesInDirection);
 		return moves;
 	}
 

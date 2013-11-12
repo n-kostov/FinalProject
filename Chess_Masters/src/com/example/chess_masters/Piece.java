@@ -1,6 +1,7 @@
 package com.example.chess_masters;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public abstract class Piece {
 	private PieceColor pieceColor;
@@ -33,5 +34,6 @@ public abstract class Piece {
 		this.pieceColor = pieceColor;
 	}
 
-	public abstract ArrayList<Position> possibleMoves(Position currentPosition);
+	public abstract Hashtable<Direction, ArrayList<Position>> possibleMoves(
+			Position currentPosition);
 }

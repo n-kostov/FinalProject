@@ -1,8 +1,9 @@
 package com.example.chess_masters;
 
 import java.util.ArrayList;
-
-import javax.crypto.spec.PSource;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -21,63 +22,15 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	private ArrayList<Square> array;
+	private ChessEngine engine;
 	private ArrayAdapter<Square> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		array = new ArrayList<Square>(64);
-		array.add(0, new Square(new RookPiece(PieceColor.BLACK_COLOR,
-				R.drawable.blackrook), new Position(0, 0)));
-		array.add(1, new Square(new KnightPiece(PieceColor.BLACK_COLOR,
-				R.drawable.blackknight), new Position(0, 1)));
-		array.add(2, new Square(new BishopPiece(PieceColor.BLACK_COLOR,
-				R.drawable.blackbishop), new Position(0, 2)));
-		array.add(3, new Square(new KingPiece(PieceColor.BLACK_COLOR,
-				R.drawable.blackking), new Position(0, 3)));
-		array.add(4, new Square(new QueenPiece(PieceColor.BLACK_COLOR,
-				R.drawable.blackqueen), new Position(0, 4)));
-		array.add(5, new Square(new BishopPiece(PieceColor.BLACK_COLOR,
-				R.drawable.blackbishop), new Position(0, 5)));
-		array.add(6, new Square(new KnightPiece(PieceColor.BLACK_COLOR,
-				R.drawable.blackknight), new Position(0, 6)));
-		array.add(7, new Square(new RookPiece(PieceColor.BLACK_COLOR,
-				R.drawable.blackrook), new Position(0, 7)));
-		for (int i = 8; i < 16; i++) {
-			array.add(i, new Square(new PawnPiece(PieceColor.BLACK_COLOR,
-					R.drawable.blackpawn), new Position(1, i % 8)));
-		}
-
-		for (int i = 16; i < 48; i++) {
-			array.add(i, new Square(null, new Position(i / 8, i % 8)));
-		}
-
-		for (int i = 48; i < 56; i++) {
-			array.add(i, new Square(new PawnPiece(PieceColor.WHITE_COLOR,
-					R.drawable.whitepawn), new Position(6, i % 8)));
-		}
-
-		array.add(56, new Square(new RookPiece(PieceColor.WHITE_COLOR,
-				R.drawable.whiterook), new Position(7, 0)));
-		array.add(57, new Square(new KnightPiece(PieceColor.WHITE_COLOR,
-				R.drawable.whitehorse), new Position(7, 1)));
-		array.add(58, new Square(new BishopPiece(PieceColor.WHITE_COLOR,
-				R.drawable.whitebishop), new Position(7, 2)));
-		array.add(59, new Square(new KingPiece(PieceColor.WHITE_COLOR,
-				R.drawable.whiteking), new Position(7, 3)));
-		array.add(60, new Square(new QueenPiece(PieceColor.WHITE_COLOR,
-				R.drawable.whitequeen), new Position(7, 4)));
-		array.add(61, new Square(new BishopPiece(PieceColor.WHITE_COLOR,
-				R.drawable.whitebishop), new Position(7, 5)));
-		array.add(62, new Square(new KnightPiece(PieceColor.WHITE_COLOR,
-				R.drawable.whitehorse), new Position(7, 6)));
-		array.add(63, new Square(new RookPiece(PieceColor.WHITE_COLOR,
-				R.drawable.whiterook), new Position(7, 7)));
-
-		adapter = new MyAdapter(this, R.layout.chess_square, array);
+		engine = new ChessEngine();
+		adapter = new MyAdapter(this, R.layout.chess_square, engine.getArray());
 		GridView grid = (GridView) findViewById(R.id.gridview1);
 		grid.setAdapter(adapter);
 		grid.setOnItemClickListener(new OnItemClickListener() {
@@ -85,21 +38,49 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Piece clickedElement = array.get(arg2).getPiece();
+				Piece clickedElement = engine.getArray().get(arg2).getPiece();
 				if (clickedElement != null) {
-					clickedElement.setSelected(!clickedElement.isSelected());
-					ArrayList<Position> selectedMoves = array.get(arg2)
-							.getPiece()
-							.possibleMoves(new Position(arg2 / 8, arg2 % 8));
-					for (Position position : selectedMoves) {
-						Square square = array.get(position.getX() * 8
-								+ position.getY());
-						square.setAttacked(!square.isAttacked());
+					if (clickedElement.getPieceColor() != engine.getInTurn()) {
+						Toast.makeText(
+								MainActivity.this,
+								"It's " + engine.getInTurn().toString()
+										+ " turn", Toast.LENGTH_LONG).show();
+					} else {
+						clickedElement.setSelected(!clickedElement.isSelected());
+						Hashtable<Direction, ArrayList<Position>> selectedMoves = engine
+								.getArray()
+								.get(arg2)
+								.getPiece()
+								.possibleMoves(new Position(arg2 / 8, arg2 % 8));
+						Enumeration<Direction> keys = selectedMoves.keys();
+						while (keys.hasMoreElements()) {
+							Direction currentDirection = keys.nextElement();
+							for (Position movePosition : selectedMoves
+									.get(currentDirection)) {
+
+								Square square = engine.getArray().get(
+										movePosition.getX() * 8
+												+ movePosition.getY());
+								Piece currentSquarePiece = square.getPiece();
+								if (currentSquarePiece != null) {
+									if (currentSquarePiece.getPieceColor() != clickedElement
+											.getPieceColor()) {
+										square.setAttacked(!square.isAttacked());
+									}
+
+									break;
+								}
+
+								square.setAttacked(!square.isAttacked());
+							}
+						}
+
+						adapter.notifyDataSetChanged();
 					}
 				}
 
 				// Collections.reverse(array);
-				adapter.notifyDataSetChanged();
+
 				// Toast.makeText(MainActivity.this, String.valueOf(arg2),
 				// Toast.LENGTH_LONG).show();
 			}
