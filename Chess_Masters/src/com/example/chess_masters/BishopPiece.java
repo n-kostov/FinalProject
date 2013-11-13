@@ -5,8 +5,8 @@ import java.util.Hashtable;
 
 public class BishopPiece extends Piece {
 
-	public BishopPiece(PieceColor color, int resource) {
-		super(color, resource);
+	public BishopPiece(PieceColor color, int resource, Position position) {
+		super(color, resource, position);
 	}
 
 	@Override

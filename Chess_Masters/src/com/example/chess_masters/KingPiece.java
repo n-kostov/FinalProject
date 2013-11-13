@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class KingPiece extends Piece {
-
 	private boolean hasMoved;
 
-	public KingPiece(PieceColor color, int resource) {
-		super(color, resource);
-		this.setHasMoved(false);
+	public KingPiece(PieceColor color, int resource, Position position) {
+		super(color, resource, position);
+		this.hasMoved = false;
 	}
 
 	@Override

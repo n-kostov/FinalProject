@@ -46,35 +46,7 @@ public class MainActivity extends Activity {
 								"It's " + engine.getInTurn().toString()
 										+ " turn", Toast.LENGTH_LONG).show();
 					} else {
-						clickedElement.setSelected(!clickedElement.isSelected());
-						Hashtable<Direction, ArrayList<Position>> selectedMoves = engine
-								.getArray()
-								.get(arg2)
-								.getPiece()
-								.possibleMoves(new Position(arg2 / 8, arg2 % 8));
-						Enumeration<Direction> keys = selectedMoves.keys();
-						while (keys.hasMoreElements()) {
-							Direction currentDirection = keys.nextElement();
-							for (Position movePosition : selectedMoves
-									.get(currentDirection)) {
-
-								Square square = engine.getArray().get(
-										movePosition.getX() * 8
-												+ movePosition.getY());
-								Piece currentSquarePiece = square.getPiece();
-								if (currentSquarePiece != null) {
-									if (currentSquarePiece.getPieceColor() != clickedElement
-											.getPieceColor()) {
-										square.setAttacked(!square.isAttacked());
-									}
-
-									break;
-								}
-
-								square.setAttacked(!square.isAttacked());
-							}
-						}
-
+						engine.selectPiece(clickedElement, MainActivity.this);
 						adapter.notifyDataSetChanged();
 					}
 				}

@@ -2,13 +2,13 @@ package com.example.chess_masters;
 
 public class Square {
 	private Piece piece;
-	private Position position;
+//	private Position position;
 	private boolean selected;
 	private boolean attacked;
 
-	public Square(Piece piece, Position position) {
+	public Square(Piece piece) {
 		this.setPiece(piece);
-		this.position = position;
+//		this.position = position;
 		this.selected = false;
 		this.attacked = false;
 	}
@@ -21,13 +21,13 @@ public class Square {
 		this.piece = piece;
 	}
 
-	public Position getPosition() {
-		return position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
-	}
+//	public Position getPosition() {
+//		return position;
+//	}
+//
+//	public void setPosition(Position position) {
+//		this.position = position;
+//	}
 
 	public boolean isSelected() {
 		return selected;

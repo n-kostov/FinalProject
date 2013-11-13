@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class PawnPiece extends Piece {
-
 	private boolean hasMoved;
 
-	public PawnPiece(PieceColor color, int resource) {
-		super(color, resource);
+	public PawnPiece(PieceColor color, int resource, Position position) {
+		super(color, resource, position);
 		this.hasMoved = false;
 	}
 
