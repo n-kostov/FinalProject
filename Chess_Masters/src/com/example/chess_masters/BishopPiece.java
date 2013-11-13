@@ -7,14 +7,19 @@ public class BishopPiece extends Piece {
 
 	public BishopPiece(PieceColor color, int resource, Position position) {
 		super(color, resource, position);
+		this.attackDIrections.add(Direction.SOUTH_EAST);
+		this.attackDIrections.add(Direction.SOUTH_WEST);
+		this.attackDIrections.add(Direction.NORTH_EAST);
+		this.attackDIrections.add(Direction.NORTH_WEST);
 	}
 
 	@Override
 	public Hashtable<Direction, ArrayList<Position>> possibleMoves(
 			Position currentPosition) {
 		Hashtable<Direction, ArrayList<Position>> moves = new Hashtable<Direction, ArrayList<Position>>();
-		Direction[] directions = { Direction.SOUTH_EAST, Direction.SOUTH_WEST,
-				Direction.NORTH_EAST, Direction.NORTH_WEST };
+		// Direction[] directions = { Direction.SOUTH_EAST,
+		// Direction.SOUTH_WEST,
+		// Direction.NORTH_EAST, Direction.NORTH_WEST };
 		int dx[] = { 1, 1, -1, -1 };
 		int dy[] = { 1, -1, 1, -1 };
 		for (int j = 0; j < 4; j++) {
@@ -28,10 +33,15 @@ public class BishopPiece extends Piece {
 				}
 			}
 
-			moves.put(directions[j], movesInDirection);
+			moves.put(this.attackDIrections.get(j), movesInDirection);
 		}
 
 		return moves;
+	}
+
+	@Override
+	public boolean canAttackInDirection(Direction direction) {
+		return this.attackDIrections.contains(direction);
 	}
 
 }

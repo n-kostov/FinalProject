@@ -7,6 +7,7 @@ public class KnightPiece extends Piece {
 
 	public KnightPiece(PieceColor color, int resource, Position position) {
 		super(color, resource, position);
+		this.attackDIrections.add(Direction.KNIGHT);
 	}
 
 	@Override
@@ -27,6 +28,11 @@ public class KnightPiece extends Piece {
 		Hashtable<Direction, ArrayList<Position>> moves = new Hashtable<Direction, ArrayList<Position>>();
 		moves.put(Direction.KNIGHT, knightMoves);
 		return moves;
+	}
+
+	@Override
+	public boolean canAttackInDirection(Direction direction) {
+		return this.attackDIrections.contains(direction);
 	}
 
 }

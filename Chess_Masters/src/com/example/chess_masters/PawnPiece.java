@@ -4,19 +4,16 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class PawnPiece extends Piece {
-	private boolean hasMoved;
 
 	public PawnPiece(PieceColor color, int resource, Position position) {
 		super(color, resource, position);
-		this.hasMoved = false;
-	}
-
-	public boolean isHasMoved() {
-		return hasMoved;
-	}
-
-	public void setHasMoved(boolean hasMoved) {
-		this.hasMoved = hasMoved;
+		if (color == PieceColor.BLACK_COLOR) {
+			this.attackDIrections.add(Direction.SOUTH_EAST);
+			this.attackDIrections.add(Direction.SOUTH_WEST);
+		} else {
+			this.attackDIrections.add(Direction.NORTH_EAST);
+			this.attackDIrections.add(Direction.NORTH_WEST);
+		}
 	}
 
 	@Override
@@ -30,7 +27,7 @@ public class PawnPiece extends Piece {
 			dir = Direction.NORTH;
 		}
 
-		if (!this.hasMoved) {
+		if (!this.isHasMoved()) {
 			movesInDirection.add(new Position(currentPosition.getX() + 2
 					* offset, currentPosition.getY()));
 		}
@@ -41,6 +38,11 @@ public class PawnPiece extends Piece {
 		Hashtable<Direction, ArrayList<Position>> moves = new Hashtable<Direction, ArrayList<Position>>();
 		moves.put(dir, movesInDirection);
 		return moves;
+	}
+
+	@Override
+	public boolean canAttackInDirection(Direction direction) {
+		return this.attackDIrections.contains(direction);
 	}
 
 }
