@@ -38,23 +38,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Piece clickedElement = engine.getArray().get(arg2).getPiece();
-				if (clickedElement != null) {
-					if (clickedElement.getPieceColor() != engine.getInTurn()) {
-						Toast.makeText(
-								MainActivity.this,
-								"It's " + engine.getInTurn().toString()
-										+ " turn", Toast.LENGTH_LONG).show();
-					} else {
-						engine.selectPiece(clickedElement, MainActivity.this);
-						adapter.notifyDataSetChanged();
-					}
-				}
-
+				engine.move(MainActivity.this, new Position(arg2 / 8, arg2 % 8));
+				adapter.notifyDataSetChanged();
 				// Collections.reverse(array);
-
-				// Toast.makeText(MainActivity.this, String.valueOf(arg2),
-				// Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -92,6 +78,8 @@ public class MainActivity extends Activity {
 			if (this.items.get(position).getPiece() != null) {
 				iv.setImageResource(this.items.get(position).getPiece()
 						.getResource());
+			} else {
+				iv.setImageResource(-1);
 			}
 
 			boolean offset = (position / 8) % 2 == 0;
