@@ -84,9 +84,9 @@ public class MainActivity extends Activity {
 
 			boolean offset = (position / 8) % 2 == 0;
 			if ((offset && position % 2 == 0) || (!offset && position % 2 != 0)) {
-				iv.setBackgroundColor(Color.GRAY);
-			} else {
 				iv.setBackgroundColor(Color.WHITE);
+			} else {
+				iv.setBackgroundColor(Color.GRAY);
 			}
 
 			if (this.items.get(position).getPiece() != null
