@@ -61,7 +61,7 @@ public class Position {
 		case SOUTH_WEST:
 			return new Position(this.x + steps, this.y - steps);
 		case WEST:
-			return new Position(this.x, this.y - 1);
+			return new Position(this.x, this.y - steps);
 		default:
 			return null;
 		}
