@@ -27,13 +27,13 @@ public class PawnPiece extends Piece {
 			dir = Direction.NORTH;
 		}
 
+		movesInDirection.add(new Position(currentPosition.getX() + offset,
+				currentPosition.getY()));
+		
 		if (!this.isHasMoved()) {
 			movesInDirection.add(new Position(currentPosition.getX() + 2
 					* offset, currentPosition.getY()));
 		}
-
-		movesInDirection.add(new Position(currentPosition.getX() + offset,
-				currentPosition.getY()));
 
 		Hashtable<Direction, ArrayList<Position>> moves = new Hashtable<Direction, ArrayList<Position>>();
 		moves.put(dir, movesInDirection);
