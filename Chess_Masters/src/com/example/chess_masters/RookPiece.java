@@ -5,8 +5,8 @@ import java.util.Hashtable;
 
 public class RookPiece extends Piece {
 
-	public RookPiece(PieceColor color, int resource, Position position) {
-		super(color, resource, position);
+	public RookPiece(PieceColor color, Position position) {
+		super(color, position);
 		this.attackDIrections.add(Direction.SOUTH);
 		this.attackDIrections.add(Direction.WEST);
 		this.attackDIrections.add(Direction.NORTH);

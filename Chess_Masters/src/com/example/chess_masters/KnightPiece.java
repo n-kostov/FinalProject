@@ -5,8 +5,8 @@ import java.util.Hashtable;
 
 public class KnightPiece extends Piece {
 
-	public KnightPiece(PieceColor color, int resource, Position position) {
-		super(color, resource, position);
+	public KnightPiece(PieceColor color, Position position) {
+		super(color, position);
 		this.attackDIrections.add(Direction.KNIGHT);
 	}
 

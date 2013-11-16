@@ -1,9 +1,6 @@
 package com.example.chess_masters;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -24,11 +21,13 @@ public class MainActivity extends Activity {
 
 	private ChessEngine engine;
 	private ArrayAdapter<Square> adapter;
+	private PieceResourceFinder resourceFinder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		resourceFinder = new PieceResourceFinder();
 		engine = new ChessEngine();
 		adapter = new ChessboardAdapter(this, R.layout.chess_square,
 				engine.getArray());
@@ -39,7 +38,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				engine.move(MainActivity.this, new Position(arg2 / 8, arg2 % 8));
+				ResponseMessage message = engine.move(MainActivity.this,
+						new Position(arg2 / 8, arg2 % 8));
+				handleResponseMessage(message);
 				adapter.notifyDataSetChanged();
 				// Collections.reverse(array);
 			}
@@ -51,6 +52,39 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	private void handleResponseMessage(ResponseMessage message) {
+		if (message != null) {
+			String msg = null;
+			switch (message.getState()) {
+			case CHECK:
+				msg = "Check!";
+				break;
+			case CHECKMATE:
+				msg = "Checkmate! " + message.getColor() + " wins!";
+				break;
+			case DRAW:
+				msg = "Draw!";
+				break;
+			case INVALID_MOVE:
+				msg = "Invalid move";
+				break;
+			case NO_VALID_MOVES:
+				msg = "This piece does not have valid moves";
+				break;
+			case NOT_YOUR_TURN:
+				msg = "It's " + message.getColor() + " turn";
+				break;
+			case STALEMATE:
+				msg = "Stalemate!";
+				break;
+			default:
+				break;
+			}
+
+			Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+		}
 	}
 
 	private class ChessboardAdapter extends ArrayAdapter<Square> {
@@ -77,9 +111,9 @@ public class MainActivity extends Activity {
 				iv = (ImageView) convertView;
 			}
 
-			if (this.items.get(position).getPiece() != null) {
-				iv.setImageResource(this.items.get(position).getPiece()
-						.getResource());
+			Piece piece = this.items.get(position).getPiece();
+			if (piece != null) {
+				iv.setImageResource(resourceFinder.getResource(piece));
 			} else {
 				iv.setImageResource(-1);
 			}
@@ -91,8 +125,7 @@ public class MainActivity extends Activity {
 				iv.setBackgroundColor(Color.GRAY);
 			}
 
-			if (this.items.get(position).getPiece() != null
-					&& this.items.get(position).getPiece().isSelected()) {
+			if (piece != null && piece.isSelected()) {
 				iv.setBackgroundColor(Color.CYAN);
 			} else if (this.items.get(position).isAttacked()) {
 				iv.setBackgroundColor(Color.BLUE);
@@ -127,7 +160,8 @@ public class MainActivity extends Activity {
 			}
 
 			if (this.items.get(position) != null) {
-				iv.setImageResource(this.items.get(position).getResource());
+				iv.setImageResource(resourceFinder.getResource(this.items
+						.get(position)));
 			}
 
 			return iv;

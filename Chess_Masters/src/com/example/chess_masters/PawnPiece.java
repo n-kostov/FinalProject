@@ -5,8 +5,8 @@ import java.util.Hashtable;
 
 public class PawnPiece extends Piece {
 
-	public PawnPiece(PieceColor color, int resource, Position position) {
-		super(color, resource, position);
+	public PawnPiece(PieceColor color, Position position) {
+		super(color, position);
 		if (color == PieceColor.BLACK_COLOR) {
 			this.attackDIrections.add(Direction.SOUTH_EAST);
 			this.attackDIrections.add(Direction.SOUTH_WEST);
@@ -29,7 +29,7 @@ public class PawnPiece extends Piece {
 
 		movesInDirection.add(new Position(currentPosition.getX() + offset,
 				currentPosition.getY()));
-		
+
 		if (!this.isHasMoved()) {
 			movesInDirection.add(new Position(currentPosition.getX() + 2
 					* offset, currentPosition.getY()));

@@ -5,15 +5,13 @@ import java.util.Hashtable;
 
 public abstract class Piece {
 	private PieceColor pieceColor;
-	private int resource;
 	private boolean selected;
 	private Position position;
 	protected ArrayList<Direction> attackDIrections;
 	private boolean hasMoved;
 
-	public Piece(PieceColor color, int resource, Position position) {
+	public Piece(PieceColor color, Position position) {
 		this.pieceColor = color;
-		this.resource = resource;
 		this.selected = false;
 		this.setPosition(position);
 		this.attackDIrections = new ArrayList<Direction>();
@@ -26,10 +24,6 @@ public abstract class Piece {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
-	}
-
-	public int getResource() {
-		return resource;
 	}
 
 	public PieceColor getPieceColor() {

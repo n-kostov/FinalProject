@@ -5,8 +5,8 @@ import java.util.Hashtable;
 
 public class BishopPiece extends Piece {
 
-	public BishopPiece(PieceColor color, int resource, Position position) {
-		super(color, resource, position);
+	public BishopPiece(PieceColor color, Position position) {
+		super(color, position);
 		this.attackDIrections.add(Direction.SOUTH_EAST);
 		this.attackDIrections.add(Direction.SOUTH_WEST);
 		this.attackDIrections.add(Direction.NORTH_EAST);
