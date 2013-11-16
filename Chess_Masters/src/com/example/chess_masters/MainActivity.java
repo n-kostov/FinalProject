@@ -30,7 +30,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		engine = new ChessEngine();
-		adapter = new MyAdapter(this, R.layout.chess_square, engine.getArray());
+		adapter = new ChessboardAdapter(this, R.layout.chess_square,
+				engine.getArray());
 		GridView grid = (GridView) findViewById(R.id.gridview1);
 		grid.setAdapter(adapter);
 		grid.setOnItemClickListener(new OnItemClickListener() {
@@ -52,12 +53,13 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	private class MyAdapter extends ArrayAdapter<Square> {
+	private class ChessboardAdapter extends ArrayAdapter<Square> {
 
 		private Context context;
 		private ArrayList<Square> items;
 
-		public MyAdapter(Context context, int resource, ArrayList<Square> array) {
+		public ChessboardAdapter(Context context, int resource,
+				ArrayList<Square> array) {
 			super(context, resource, array);
 			this.context = context;
 			this.items = array;
@@ -94,6 +96,38 @@ public class MainActivity extends Activity {
 				iv.setBackgroundColor(Color.CYAN);
 			} else if (this.items.get(position).isAttacked()) {
 				iv.setBackgroundColor(Color.BLUE);
+			}
+
+			return iv;
+		}
+	}
+
+	private class PromotionAdapter extends ArrayAdapter<Piece> {
+
+		private Context context;
+		private ArrayList<Piece> items;
+
+		public PromotionAdapter(Context context, int resource,
+				ArrayList<Piece> array) {
+			super(context, resource, array);
+			this.context = context;
+			this.items = array;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ImageView iv;
+			if (convertView == null) {
+				LayoutInflater inflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				iv = (ImageView) inflater.inflate(R.layout.chess_square,
+						parent, false);
+			} else {
+				iv = (ImageView) convertView;
+			}
+
+			if (this.items.get(position) != null) {
+				iv.setImageResource(this.items.get(position).getResource());
 			}
 
 			return iv;
