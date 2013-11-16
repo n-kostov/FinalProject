@@ -1,11 +1,18 @@
 package com.example.chess_masters;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
+import android.telephony.gsm.SmsMessage.MessageClass;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -38,8 +45,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				ResponseMessage message = engine.move(MainActivity.this,
-						new Position(arg2 / 8, arg2 % 8));
+				ResponseMessage message = engine.move(new Position(arg2 / 8,
+						arg2 % 8));
 				handleResponseMessage(message);
 				adapter.notifyDataSetChanged();
 				// Collections.reverse(array);
@@ -79,12 +86,72 @@ public class MainActivity extends Activity {
 			case STALEMATE:
 				msg = "Stalemate!";
 				break;
+			case PROMOTION:
+				handlePromotion(message);
+				return;
 			default:
 				break;
 			}
 
 			Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
 		}
+	}
+
+	private void handlePromotion(final ResponseMessage message) {
+		if (message == null || message.getState() != GameState.PROMOTION) {
+			return;
+		}
+
+		// TODO find a way to use this array
+		final Class[] pieces = { KnightPiece.class, BishopPiece.class,
+				RookPiece.class, QueenPiece.class };
+		ArrayList<Integer> resources = new ArrayList<Integer>();
+		if (message.getColor() == PieceColor.BLACK_COLOR) {
+			resources.add(R.drawable.blackknight);
+			resources.add(R.drawable.blackbishop);
+			resources.add(R.drawable.blackrook);
+			resources.add(R.drawable.blackqueen);
+		} else {
+			resources.add(R.drawable.whitehorse);
+			resources.add(R.drawable.whitebishop);
+			resources.add(R.drawable.whiterook);
+			resources.add(R.drawable.whitequeen);
+		}
+
+		AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+		PromotionAdapter promotionAdapter = new PromotionAdapter(
+				MainActivity.this, R.layout.chess_square, resources);
+		dialog.setAdapter(promotionAdapter, new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Piece piece = null;
+				Position position = new Position(0, 0);
+				switch (which) {
+				case 0:
+					piece = new KnightPiece(message.getColor(), position);
+					break;
+				case 1:
+					piece = new BishopPiece(message.getColor(), position);
+					break;
+				case 2:
+					piece = new RookPiece(message.getColor(), position);
+					break;
+				case 3:
+					piece = new QueenPiece(message.getColor(), position);
+					break;
+				default:
+					break;
+				}
+
+				ResponseMessage promotionResponseMessage = engine
+						.promote(piece);
+				handleResponseMessage(promotionResponseMessage);
+				adapter.notifyDataSetChanged();
+			}
+		});
+
+		dialog.create().show();
 	}
 
 	private class ChessboardAdapter extends ArrayAdapter<Square> {
@@ -135,16 +202,15 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	private class PromotionAdapter extends ArrayAdapter<Piece> {
-
+	private class PromotionAdapter extends ArrayAdapter<Integer> {
 		private Context context;
-		private ArrayList<Piece> items;
+		private ArrayList<Integer> items;
 
 		public PromotionAdapter(Context context, int resource,
-				ArrayList<Piece> array) {
-			super(context, resource, array);
+				ArrayList<Integer> resources) {
+			super(context, resource, resources);
 			this.context = context;
-			this.items = array;
+			this.items = resources;
 		}
 
 		@Override
@@ -160,8 +226,7 @@ public class MainActivity extends Activity {
 			}
 
 			if (this.items.get(position) != null) {
-				iv.setImageResource(resourceFinder.getResource(this.items
-						.get(position)));
+				iv.setImageResource(this.items.get(position));
 			}
 
 			return iv;
