@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
 		}
 
 		chessboardAdapter = new ChessboardAdapter(this, R.layout.chess_square,
-				engine.getArray());
+				engine.getChessSquares());
 		GridView grid = (GridView) findViewById(R.id.chessboard_gridview);
 		grid.setAdapter(chessboardAdapter);
 		grid.setOnItemClickListener(new OnItemClickListener() {
@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
 				db.deletePieces();
 			}
 
-			ArrayList<Square> squares = engine.getArray();
+			ArrayList<Square> squares = engine.getChessSquares();
 			for (int i = 0; i < squares.size(); i++) {
 				Piece piece = squares.get(i).getPiece();
 				if (piece != null) {
