@@ -1,7 +1,11 @@
-package com.example.chess_masters;
+package com.example.chess_masters.pieces;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+
+import com.example.chess_masters.game.Direction;
+import com.example.chess_masters.game.PieceColor;
+import com.example.chess_masters.game.Position;
 
 public class PawnPiece extends Piece {
 

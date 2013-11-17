@@ -1,14 +1,14 @@
-package com.example.chess_masters;
+package com.example.chess_masters.game;
+
+import com.example.chess_masters.pieces.Piece;
 
 public class Square {
 	private Piece piece;
-//	private Position position;
 	private boolean selected;
 	private boolean attacked;
 
 	public Square(Piece piece) {
 		this.setPiece(piece);
-//		this.position = position;
 		this.selected = false;
 		this.attacked = false;
 	}
@@ -20,14 +20,6 @@ public class Square {
 	public void setPiece(Piece piece) {
 		this.piece = piece;
 	}
-
-//	public Position getPosition() {
-//		return position;
-//	}
-//
-//	public void setPosition(Position position) {
-//		this.position = position;
-//	}
 
 	public boolean isSelected() {
 		return selected;

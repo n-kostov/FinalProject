@@ -1,29 +1,23 @@
-package com.example.chess_masters;
+package com.example.chess_masters.pieces;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import com.example.chess_masters.game.Direction;
+import com.example.chess_masters.game.PieceColor;
+import com.example.chess_masters.game.Position;
+
 public abstract class Piece {
 	private PieceColor pieceColor;
-	private boolean selected;
 	private Position position;
 	protected ArrayList<Direction> attackDIrections;
 	private boolean hasMoved;
 
 	public Piece(PieceColor color, Position position) {
 		this.pieceColor = color;
-		this.selected = false;
 		this.setPosition(position);
 		this.attackDIrections = new ArrayList<Direction>();
 		this.hasMoved = false;
-	}
-
-	public boolean isSelected() {
-		return selected;
-	}
-
-	public void setSelected(boolean selected) {
-		this.selected = selected;
 	}
 
 	public PieceColor getPieceColor() {

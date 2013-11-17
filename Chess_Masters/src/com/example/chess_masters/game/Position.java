@@ -1,4 +1,5 @@
-package com.example.chess_masters;
+package com.example.chess_masters.game;
+
 
 public class Position {
 	private final int x;

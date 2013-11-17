@@ -2,6 +2,18 @@ package com.example.chess_masters;
 
 import java.util.ArrayList;
 
+import com.example.chess_masters.game.ChessEngine;
+import com.example.chess_masters.game.GameState;
+import com.example.chess_masters.game.PieceColor;
+import com.example.chess_masters.game.Position;
+import com.example.chess_masters.game.ResponseMessage;
+import com.example.chess_masters.game.Square;
+import com.example.chess_masters.pieces.BishopPiece;
+import com.example.chess_masters.pieces.KnightPiece;
+import com.example.chess_masters.pieces.Piece;
+import com.example.chess_masters.pieces.QueenPiece;
+import com.example.chess_masters.pieces.RookPiece;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -221,6 +233,7 @@ public class MainActivity extends Activity {
 			if (piece != null) {
 				iv.setImageResource(resourceFinder.getResource(piece));
 			} else {
+				// TODO: constant
 				iv.setImageResource(-1);
 			}
 
@@ -231,7 +244,7 @@ public class MainActivity extends Activity {
 				iv.setBackgroundColor(Color.GRAY);
 			}
 
-			if (piece != null && piece.isSelected()) {
+			if (piece != null && this.items.get(position).isSelected()) {
 				iv.setBackgroundColor(Color.CYAN);
 			} else if (this.items.get(position).isAttacked()) {
 				iv.setBackgroundColor(Color.BLUE);
