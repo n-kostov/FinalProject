@@ -1,18 +1,15 @@
 package com.example.chess_masters;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.graphics.Color;
-import android.telephony.gsm.SmsMessage.MessageClass;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -64,15 +61,18 @@ public class MainActivity extends Activity {
 	private void handleResponseMessage(ResponseMessage message) {
 		if (message != null) {
 			String msg = null;
+			boolean gameOver = false;
 			switch (message.getState()) {
 			case CHECK:
 				msg = "Check!";
 				break;
 			case CHECKMATE:
 				msg = "Checkmate! " + message.getColor() + " wins!";
+				gameOver = true;
 				break;
 			case DRAW:
 				msg = "Draw!";
+				gameOver = true;
 				break;
 			case INVALID_MOVE:
 				msg = "Invalid move";
@@ -85,6 +85,7 @@ public class MainActivity extends Activity {
 				break;
 			case STALEMATE:
 				msg = "Stalemate!";
+				gameOver = true;
 				break;
 			case PROMOTION:
 				handlePromotion(message);
@@ -93,7 +94,25 @@ public class MainActivity extends Activity {
 				break;
 			}
 
-			Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+			if (gameOver) {
+				AlertDialog.Builder endGameDialog = new AlertDialog.Builder(
+						MainActivity.this);
+				endGameDialog.setMessage(msg);
+				endGameDialog.setPositiveButton("OK", new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Intent intent = new Intent(MainActivity.this,
+								HomeActivity.class);
+						startActivity(intent);
+					}
+				});
+
+				endGameDialog.create().show();
+			} else {
+				Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG)
+						.show();
+			}
 		}
 	}
 
@@ -102,9 +121,8 @@ public class MainActivity extends Activity {
 			return;
 		}
 
-		// TODO find a way to use this array
-		final Class[] pieces = { KnightPiece.class, BishopPiece.class,
-				RookPiece.class, QueenPiece.class };
+		// final Class[] pieces = { KnightPiece.class, BishopPiece.class,
+		// RookPiece.class, QueenPiece.class };
 		ArrayList<Integer> resources = new ArrayList<Integer>();
 		if (message.getColor() == PieceColor.BLACK_COLOR) {
 			resources.add(R.drawable.blackknight);
@@ -120,13 +138,33 @@ public class MainActivity extends Activity {
 
 		AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
 		PromotionAdapter promotionAdapter = new PromotionAdapter(
-				MainActivity.this, R.layout.chess_square, resources);
+				MainActivity.this, R.layout.promotion_piece_row, resources);
 		dialog.setAdapter(promotionAdapter, new OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Piece piece = null;
 				Position position = new Position(0, 0);
+				// try {
+				// piece = (Piece) pieces[which].getDeclaredConstructor(
+				// new Class[] { PieceColor.class, Position.class })
+				// .newInstance(message.getColor(), position);
+				// } catch (IllegalArgumentException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// } catch (InstantiationException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// } catch (IllegalAccessException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// } catch (InvocationTargetException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// } catch (NoSuchMethodException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
 				switch (which) {
 				case 0:
 					piece = new KnightPiece(message.getColor(), position);
@@ -158,11 +196,13 @@ public class MainActivity extends Activity {
 
 		private Context context;
 		private ArrayList<Square> items;
+		private int resource;
 
 		public ChessboardAdapter(Context context, int resource,
 				ArrayList<Square> array) {
 			super(context, resource, array);
 			this.context = context;
+			this.resource = resource;
 			this.items = array;
 		}
 
@@ -172,8 +212,7 @@ public class MainActivity extends Activity {
 			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				iv = (ImageView) inflater.inflate(R.layout.chess_square,
-						parent, false);
+				iv = (ImageView) inflater.inflate(this.resource, parent, false);
 			} else {
 				iv = (ImageView) convertView;
 			}
@@ -205,32 +244,41 @@ public class MainActivity extends Activity {
 	private class PromotionAdapter extends ArrayAdapter<Integer> {
 		private Context context;
 		private ArrayList<Integer> items;
+		private int resource;
 
 		public PromotionAdapter(Context context, int resource,
 				ArrayList<Integer> resources) {
 			super(context, resource, resources);
 			this.context = context;
+			this.resource = resource;
 			this.items = resources;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ImageView iv;
+			Viewholder viewHolder;
 			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				iv = (ImageView) inflater.inflate(R.layout.chess_square,
-						parent, false);
+				convertView = inflater.inflate(this.resource, parent, false);
+				viewHolder = new Viewholder();
+				viewHolder.iv = (ImageView) convertView
+						.findViewById(R.id.piece);
+				convertView.setTag(viewHolder);
 			} else {
-				iv = (ImageView) convertView;
+				viewHolder = (Viewholder) convertView.getTag();
 			}
 
 			if (this.items.get(position) != null) {
-				iv.setImageResource(this.items.get(position));
+				viewHolder.iv.setImageResource(this.items.get(position));
 			}
 
-			return iv;
+			return convertView;
 		}
+	}
+
+	private static class Viewholder {
+		ImageView iv;
 	}
 
 }
