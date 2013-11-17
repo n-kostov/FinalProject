@@ -10,13 +10,13 @@ import com.example.chess_masters.game.Position;
 public abstract class Piece {
 	private PieceColor pieceColor;
 	private Position position;
-	protected ArrayList<Direction> attackDIrections;
+	protected ArrayList<Direction> attackDirections;
 	private boolean hasMoved;
 
 	public Piece(PieceColor color, Position position) {
 		this.pieceColor = color;
 		this.setPosition(position);
-		this.attackDIrections = new ArrayList<Direction>();
+		this.attackDirections = new ArrayList<Direction>();
 		this.hasMoved = false;
 	}
 

@@ -11,7 +11,7 @@ public class KnightPiece extends Piece {
 
 	public KnightPiece(PieceColor color, Position position) {
 		super(color, position);
-		this.attackDIrections.add(Direction.KNIGHT);
+		this.attackDirections.add(Direction.KNIGHT);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class KnightPiece extends Piece {
 
 	@Override
 	public boolean canAttackInDirection(Direction direction) {
-		return this.attackDIrections.contains(direction);
+		return this.attackDirections.contains(direction);
 	}
 
 }

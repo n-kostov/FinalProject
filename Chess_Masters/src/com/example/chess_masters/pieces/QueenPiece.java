@@ -11,14 +11,14 @@ public class QueenPiece extends Piece {
 
 	public QueenPiece(PieceColor color, Position position) {
 		super(color, position);
-		this.attackDIrections.add(Direction.SOUTH_EAST);
-		this.attackDIrections.add(Direction.SOUTH_WEST);
-		this.attackDIrections.add(Direction.NORTH_EAST);
-		this.attackDIrections.add(Direction.NORTH_WEST);
-		this.attackDIrections.add(Direction.SOUTH);
-		this.attackDIrections.add(Direction.WEST);
-		this.attackDIrections.add(Direction.NORTH);
-		this.attackDIrections.add(Direction.EAST);
+		this.attackDirections.add(Direction.SOUTH_EAST);
+		this.attackDirections.add(Direction.SOUTH_WEST);
+		this.attackDirections.add(Direction.NORTH_EAST);
+		this.attackDirections.add(Direction.NORTH_WEST);
+		this.attackDirections.add(Direction.SOUTH);
+		this.attackDirections.add(Direction.WEST);
+		this.attackDirections.add(Direction.NORTH);
+		this.attackDirections.add(Direction.EAST);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class QueenPiece extends Piece {
 				}
 			}
 
-			moves.put(this.attackDIrections.get(j), movesInDirection);
+			moves.put(this.attackDirections.get(j), movesInDirection);
 		}
 
 		return moves;
@@ -50,7 +50,7 @@ public class QueenPiece extends Piece {
 
 	@Override
 	public boolean canAttackInDirection(Direction direction) {
-		return this.attackDIrections.contains(direction);
+		return this.attackDirections.contains(direction);
 	}
 
 }

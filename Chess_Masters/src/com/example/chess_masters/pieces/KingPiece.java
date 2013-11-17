@@ -11,14 +11,14 @@ public class KingPiece extends Piece {
 
 	public KingPiece(PieceColor color, Position position) {
 		super(color, position);
-		this.attackDIrections.add(Direction.SOUTH_EAST);
-		this.attackDIrections.add(Direction.SOUTH_WEST);
-		this.attackDIrections.add(Direction.NORTH_EAST);
-		this.attackDIrections.add(Direction.NORTH_WEST);
-		this.attackDIrections.add(Direction.SOUTH);
-		this.attackDIrections.add(Direction.WEST);
-		this.attackDIrections.add(Direction.NORTH);
-		this.attackDIrections.add(Direction.EAST);
+		this.attackDirections.add(Direction.SOUTH_EAST);
+		this.attackDirections.add(Direction.SOUTH_WEST);
+		this.attackDirections.add(Direction.NORTH_EAST);
+		this.attackDirections.add(Direction.NORTH_WEST);
+		this.attackDirections.add(Direction.SOUTH);
+		this.attackDirections.add(Direction.WEST);
+		this.attackDirections.add(Direction.NORTH);
+		this.attackDirections.add(Direction.EAST);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class KingPiece extends Piece {
 					currentPosition.getY() + dy[i]);
 			if (next.isValid()) {
 				movesInDirection.add(next);
-				moves.put(this.attackDIrections.get(i), movesInDirection);
+				moves.put(this.attackDirections.get(i), movesInDirection);
 			}
 		}
 
@@ -47,7 +47,7 @@ public class KingPiece extends Piece {
 
 	@Override
 	public boolean canAttackInDirection(Direction direction) {
-		return this.attackDIrections.contains(direction);
+		return this.attackDirections.contains(direction);
 	}
 
 }

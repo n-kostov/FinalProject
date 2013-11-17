@@ -1,6 +1,5 @@
 package com.example.chess_masters.game;
 
-
 public class Position {
 	private final int x;
 	private final int y;
@@ -38,7 +37,6 @@ public class Position {
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
 
-	// TODO: use everywhere
 	public Position getPositionInDirection(Direction direction, int steps) {
 		if (steps <= 0) {
 			return this;

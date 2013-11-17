@@ -11,10 +11,10 @@ public class BishopPiece extends Piece {
 
 	public BishopPiece(PieceColor color, Position position) {
 		super(color, position);
-		this.attackDIrections.add(Direction.SOUTH_EAST);
-		this.attackDIrections.add(Direction.SOUTH_WEST);
-		this.attackDIrections.add(Direction.NORTH_EAST);
-		this.attackDIrections.add(Direction.NORTH_WEST);
+		this.attackDirections.add(Direction.SOUTH_EAST);
+		this.attackDirections.add(Direction.SOUTH_WEST);
+		this.attackDirections.add(Direction.NORTH_EAST);
+		this.attackDirections.add(Direction.NORTH_WEST);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class BishopPiece extends Piece {
 				}
 			}
 
-			moves.put(this.attackDIrections.get(j), movesInDirection);
+			moves.put(this.attackDirections.get(j), movesInDirection);
 		}
 
 		return moves;
@@ -45,7 +45,7 @@ public class BishopPiece extends Piece {
 
 	@Override
 	public boolean canAttackInDirection(Direction direction) {
-		return this.attackDIrections.contains(direction);
+		return this.attackDirections.contains(direction);
 	}
 
 }

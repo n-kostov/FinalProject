@@ -11,10 +11,10 @@ public class RookPiece extends Piece {
 
 	public RookPiece(PieceColor color, Position position) {
 		super(color, position);
-		this.attackDIrections.add(Direction.SOUTH);
-		this.attackDIrections.add(Direction.WEST);
-		this.attackDIrections.add(Direction.NORTH);
-		this.attackDIrections.add(Direction.EAST);
+		this.attackDirections.add(Direction.SOUTH);
+		this.attackDirections.add(Direction.WEST);
+		this.attackDirections.add(Direction.NORTH);
+		this.attackDirections.add(Direction.EAST);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class RookPiece extends Piece {
 				}
 			}
 
-			moves.put(this.attackDIrections.get(j), movesInDirection);
+			moves.put(this.attackDirections.get(j), movesInDirection);
 		}
 
 		return moves;
@@ -45,6 +45,6 @@ public class RookPiece extends Piece {
 
 	@Override
 	public boolean canAttackInDirection(Direction direction) {
-		return this.attackDIrections.contains(direction);
+		return this.attackDirections.contains(direction);
 	}
 }

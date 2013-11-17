@@ -12,11 +12,11 @@ public class PawnPiece extends Piece {
 	public PawnPiece(PieceColor color, Position position) {
 		super(color, position);
 		if (color == PieceColor.BLACK_COLOR) {
-			this.attackDIrections.add(Direction.SOUTH_EAST);
-			this.attackDIrections.add(Direction.SOUTH_WEST);
+			this.attackDirections.add(Direction.SOUTH_EAST);
+			this.attackDirections.add(Direction.SOUTH_WEST);
 		} else {
-			this.attackDIrections.add(Direction.NORTH_EAST);
-			this.attackDIrections.add(Direction.NORTH_WEST);
+			this.attackDirections.add(Direction.NORTH_EAST);
+			this.attackDirections.add(Direction.NORTH_WEST);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class PawnPiece extends Piece {
 
 	@Override
 	public boolean canAttackInDirection(Direction direction) {
-		return this.attackDIrections.contains(direction);
+		return this.attackDirections.contains(direction);
 	}
 
 }
