@@ -10,9 +10,9 @@ public class HomeActivity extends Activity {
 	private Button continueGameBtn;
 	private Button startNewGameBtn;
 
-	protected void onCreate(Bundle paramBundle) {
-		super.onCreate(paramBundle);
-		setContentView(2130903040);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_home);
 		this.startNewGameBtn = ((Button) findViewById(R.id.start_new_game_btn));
 		this.startNewGameBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View paramView) {
@@ -42,8 +42,3 @@ public class HomeActivity extends Activity {
 		this.continueGameBtn.setEnabled(true);
 	}
 }
-
-/*
- * Location: C:\Users\spind\Desktop\ChessMasters_dex2jar.jar Qualified Name:
- * com.example.chess_masters.HomeActivity JD-Core Version: 0.6.0
- */

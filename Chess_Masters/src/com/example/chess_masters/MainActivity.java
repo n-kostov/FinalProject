@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 
 	private ChessEngine engine;
 	private ArrayAdapter<Square> chessboardAdapter;
-	private boolean hasMoved;
+	private boolean gameInProgress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +63,10 @@ public class MainActivity extends Activity {
 			ArrayList<Piece> pieces = new ArrayList<Piece>();
 			reloadGame(pieces);
 			engine = new ChessEngine(inTurn, pieces);
-			hasMoved = true;
+			gameInProgress = true;
 		} else {
 			engine = new ChessEngine();
-			hasMoved = false;
+			gameInProgress = false;
 		}
 
 		chessboardAdapter = new ChessboardAdapter(this, R.layout.chess_square,
@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 		super.onPause();
 		PiecesDb db = ((ChessMastersApplication) getApplication())
 				.getPiecesDb();
-		if (hasMoved) {
+		if (gameInProgress) {
 			SharedPreferences preferences = PreferenceManager
 					.getDefaultSharedPreferences(this);
 			SharedPreferences.Editor editor = preferences.edit();
@@ -193,12 +193,12 @@ public class MainActivity extends Activity {
 			case CHECKMATE:
 				msg = "Checkmate! " + message.getColor() + " wins!";
 				gameOver = true;
-				hasMoved = false;
+				gameInProgress = false;
 				break;
 			case DRAW:
 				msg = "Draw!";
 				gameOver = true;
-				hasMoved = false;
+				gameInProgress = false;
 				break;
 			case INVALID_MOVE:
 				msg = "Invalid move";
@@ -212,7 +212,7 @@ public class MainActivity extends Activity {
 			case STALEMATE:
 				msg = "Stalemate!";
 				gameOver = true;
-				hasMoved = false;
+				gameInProgress = false;
 				break;
 			case PROMOTION:
 				handlePromotion(message);
@@ -241,7 +241,7 @@ public class MainActivity extends Activity {
 						.show();
 			}
 		} else {
-			hasMoved = true;
+			gameInProgress = true;
 		}
 	}
 
@@ -253,7 +253,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				hasMoved = false;
+				gameInProgress = false;
 				Intent intent = new Intent(MainActivity.this,
 						HomeActivity.class);
 				startActivity(intent);

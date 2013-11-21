@@ -15,8 +15,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String DB_NAME = "CHESS_MASTERS";
 	private static final int DB_VERSION = 1;
 
-	public DbHelper(Context paramContext) {
-		super(paramContext, DB_NAME, null, DB_VERSION);
+	public DbHelper(Context context) {
+		super(context, DB_NAME, null, DB_VERSION);
 	}
 
 	public void close() {
@@ -43,8 +43,8 @@ public class DbHelper extends SQLiteOpenHelper {
 				.execSQL("create table pieces (_id integer primary key autoincrement, color text not null, x integer not null, y integer not null, piece_type_id integer not null constraint 'FK_Pieces_Types' references 'pieces_types'('_id'));");
 	}
 
-	public void onUpgrade(SQLiteDatabase paramSQLiteDatabase, int paramInt1,
-			int paramInt2) {
+	@Override
+	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
 	}
 
 	public SQLiteDatabase open() {

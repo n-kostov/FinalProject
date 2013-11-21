@@ -207,38 +207,6 @@ public class ChessEngine {
 		}
 
 		this.removeImpossibleMoves(piece, moves);
-
-		// if (!directions.hasMoreElements()) {
-		// if (!(piece instanceof PawnPiece))
-		// break label177;
-		// addPawnPositions(piece, moves);
-		// }
-		// while (true) {
-		// removeImpossibleMoves(piece, moves);
-		// Direction localDirection = (Direction) directions.nextElement();
-		// Iterator localIterator = ((ArrayList) possibleMoves
-		// .get(localDirection)).iterator();
-		// while (true) {
-		// if (!localIterator.hasNext())
-		// break label175;
-		// Position localPosition = (Position) localIterator.next();
-		// Piece localPiece = ((Square) this.squares.get(8
-		// * localPosition.getX() + localPosition.getY()))
-		// .getPiece();
-		// if (localPiece != null) {
-		// if ((localPiece.getPieceColor() != piece.getPieceColor())
-		// && (!(piece instanceof PawnPiece)))
-		// moves.add(localPiece.getPosition());
-		// if (localDirection == Direction.KNIGHT)
-		// continue;
-		// break;
-		// }
-		// moves.add(localPosition);
-		// }
-		// label175: break;
-		// label177: if (!(piece instanceof KingPiece))
-		// continue;
-		// checkCastlePositions(piece, moves);
 	}
 
 	private boolean hasAttackers(Piece piece) {
@@ -523,6 +491,28 @@ public class ChessEngine {
 
 				this.squares.get(8 * position.getX() + position.getY())
 						.setPiece(piece);
+			}
+		}
+
+		this.checkForPromotion();
+	}
+
+	private void checkForPromotion() {
+		for (int i = 0; i < 8; i++) {
+			Piece piece = this.squares.get(i).getPiece();
+			if (piece instanceof PawnPiece) {
+				this.selectedPiece = piece;
+				this.isUnderPromotion = true;
+				return;
+			}
+		}
+
+		for (int i = 56; i < 64; i++) {
+			Piece piece = this.squares.get(i).getPiece();
+			if (piece instanceof PawnPiece) {
+				this.selectedPiece = piece;
+				this.isUnderPromotion = true;
+				return;
 			}
 		}
 	}
