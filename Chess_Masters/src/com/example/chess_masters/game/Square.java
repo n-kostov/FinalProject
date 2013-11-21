@@ -2,38 +2,51 @@ package com.example.chess_masters.game;
 
 import com.example.chess_masters.pieces.Piece;
 
-public class Square {
-	private Piece piece;
-	private boolean selected;
-	private boolean attacked;
+public class Square
+{
+  private boolean attacked;
+  private Piece piece;
+  private boolean selected;
 
-	public Square(Piece piece) {
-		this.setPiece(piece);
-		this.selected = false;
-		this.attacked = false;
-	}
+  public Square(Piece paramPiece)
+  {
+    setPiece(paramPiece);
+    this.selected = false;
+    this.attacked = false;
+  }
 
-	public Piece getPiece() {
-		return piece;
-	}
+  public Piece getPiece()
+  {
+    return this.piece;
+  }
 
-	public void setPiece(Piece piece) {
-		this.piece = piece;
-	}
+  public boolean isAttacked()
+  {
+    return this.attacked;
+  }
 
-	public boolean isSelected() {
-		return selected;
-	}
+  public boolean isSelected()
+  {
+    return this.selected;
+  }
 
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
+  public void setAttacked(boolean paramBoolean)
+  {
+    this.attacked = paramBoolean;
+  }
 
-	public boolean isAttacked() {
-		return attacked;
-	}
+  public void setPiece(Piece paramPiece)
+  {
+    this.piece = paramPiece;
+  }
 
-	public void setAttacked(boolean attacked) {
-		this.attacked = attacked;
-	}
+  public void setSelected(boolean paramBoolean)
+  {
+    this.selected = paramBoolean;
+  }
 }
+
+/* Location:           C:\Users\spind\Desktop\ChessMasters_dex2jar.jar
+ * Qualified Name:     com.example.chess_masters.game.Square
+ * JD-Core Version:    0.6.0
+ */
